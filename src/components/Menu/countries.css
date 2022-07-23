@@ -1,0 +1,29 @@
+.container-country {
+    height: 100vh;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+table {
+    border: 2px solid forestgreen;
+    width: 800px;
+    height: 200px;
+}
+    
+th {
+  border-bottom: 1px solid black;
+}
+  
+td {
+  text-align: center;
+}
+
+.addcountry {
+  padding: 8px 16px 8px 16px;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin: 8px 8px;
+}
