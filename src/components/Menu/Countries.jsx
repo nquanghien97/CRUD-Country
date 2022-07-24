@@ -1,14 +1,16 @@
 import './countries.css'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Delete from '../Popup/Delete';
+// import Delete from '../Popup/Delete';
 import AddCountry from '../Popup/AddCountry'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 function Countries() {
 
+  //show Popup Delete Country
   const [showDel, setShowDel] = useState(false)
 
+  //handle Delete Country
   const handleDel = (id) => {
     setShowDel(true)
     const options = {
@@ -32,14 +34,15 @@ function Countries() {
     }
   }
 
+  //show Popup Add Country
   const [showAdd, setShowAdd] = useState(false)
 
   const handleAdd = () => {
     setShowAdd(true)
   }
-
+  
+  //call Api to render table
   const [items, setItems] = useState([]);
-
   useEffect(() => {
     fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country")
       .then(res => res.json())
@@ -53,13 +56,12 @@ function Countries() {
   return (
     <div className="container-country">
       {/* {showDel ? <Delete setShowDel={setShowDel} /> : "" } */}
-      {showAdd ? <AddCountry setShowAdd={setShowAdd} /> : ""}
+      {showAdd ? <AddCountry setShowAdd={setShowAdd} items={items}/> : ""}
           <button className="addcountry" onClick={handleAdd}>Thêm mới</button>
           <table>
               <tbody>
                 <tr>
                   <th>Thao tác</th>
-                  <th>Số thứ tự</th>
                   <th>Tên</th>
                   <th>Mã</th>
                   <th>Mô tả</th>
@@ -71,7 +73,6 @@ function Countries() {
                     <span><EditIcon style={{color:"#00bfc7", cursor:"pointer"}}/></span>
                     <span><DeleteIcon style={{color:"#fb9678", cursor:"pointer"}} onClick={()=>handleDel(item.id)}/></span>
                   </td>
-                  <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.code}</td>
                   <td>{item.des}</td>

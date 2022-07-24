@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import './addcountry.css'
-import {
-    Formik, Form, Field
-  } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
   
-
 function AddCountry(props) {
 
-    const {setShowAdd} = props
+    const {setShowAdd, items} = props
 
     const handleAdd = () => setShowAdd(false)
 
@@ -29,6 +26,7 @@ function AddCountry(props) {
                 (result) => {
                     setInput(result);
                 },
+                console.log(input)
             );
     }
 
@@ -38,9 +36,9 @@ function AddCountry(props) {
             code: values.code,
             des: values.des,
         }
-        console.log(formData);
         AddNewCountry(formData)
         handleAdd()
+        // items.push(formData)
     }
 
     const validationSchema = Yup.object().shape({
