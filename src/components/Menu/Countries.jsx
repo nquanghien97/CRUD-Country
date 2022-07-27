@@ -3,6 +3,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import Delete from '../Popup/Delete';
 import AddCountry from '../Popup/AddCountry'
+import EditCountry from '../Popup/EditCountry'
 import { useState, useEffect } from 'react'
 
 function Countries() {
@@ -19,27 +20,33 @@ function Countries() {
           'Content-Type': 'application/json'
         },
   }
+    fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country" + '/' + id, options)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                console.log(result);
+            },
+        );
 
-  fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country" + '/' + id, options)
-      .then(res => res.json())
-      .then(
-          (result) => {
-              console.log(result);
-          },
-      );
-
-    const el = document.getElementById(id)
-    if(el) {
-      el.remove()
+    const element = document.getElementById(id)
+    if(element) {
+      element.remove()
     }
   }
 
-  //show Popup Add Country
+  //show Popup AddCountry
   const [showAdd, setShowAdd] = useState(false)
 
   const handleAdd = () => {
     setShowAdd(true)
   }
+
+  //show Popup Edit Country
+  const [showEdit, setShowEdit] = useState(false)
+
+  const handleEdit = () => {
+    setShowEdit(true)
+    }
   
   //call Api to render table
   const [items, setItems] = useState([]);
@@ -51,12 +58,13 @@ function Countries() {
           setItems(result);
         },
       )
-  },[])
+  },[]);
 
   return (
     <div className="container-country">
       {/* {showDel ? <Delete setShowDel={setShowDel} /> : "" } */}
-      {showAdd ? <AddCountry setShowAdd={setShowAdd} items={items}/> : ""}
+      {showAdd ? <AddCountry setShowAdd={setShowAdd} items={items} setItems={setItems} /> : ""}
+      {showEdit ? <EditCountry setShowEdit={setShowEdit} /> : ""}
           <button className="addcountry" onClick={handleAdd}>Thêm mới</button>
           <table>
               <tbody>
@@ -70,7 +78,7 @@ function Countries() {
             return (
                 <tr key={index} id={item.id}>
                   <td>
-                    <span><EditIcon style={{color:"#00bfc7", cursor:"pointer"}}/></span>
+                    <span><EditIcon style={{color:"#00bfc7", cursor:"pointer"}} onClick={handleEdit} /></span>
                     <span><DeleteIcon style={{color:"#fb9678", cursor:"pointer"}} onClick={()=>handleDel(item.id)}/></span>
                   </td>
                   <td>{item.name}</td>

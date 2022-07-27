@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './addcountry.css'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
   
 function AddCountry(props) {
 
-    const {setShowAdd, items} = props
+    const {setShowAdd, items, setItems} = props
 
-    const handleAdd = () => setShowAdd(false)
+    const cancelAdd = () => setShowAdd(false)
 
     const [input, setInput] = useState("");
 
@@ -19,15 +19,13 @@ function AddCountry(props) {
               },
             body: JSON.stringify(data)
         }
-
-        fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country", options)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setInput(result);
-                },
-                console.log(input)
-            );
+    fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country", options)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                setInput(result);
+            },
+            )
     }
 
     const onSubmit = (values) => {
@@ -37,8 +35,11 @@ function AddCountry(props) {
             des: values.des,
         }
         AddNewCountry(formData)
-        handleAdd()
+        cancelAdd()
         // items.push(formData)
+        setInterval(() =>{
+            window.location.reload();
+        }, 500)
     }
 
     const validationSchema = Yup.object().shape({
@@ -95,8 +96,8 @@ function AddCountry(props) {
                         />
                     </div>
                     <div className="form-button">
-                        <button className="button" type="submit">Add Country</button>
-                        <button className="button" onClick={handleAdd}>Hủy</button>
+                        <button className="button" type="submit">Thêm Quốc Gia</button>
+                        <button className="button" onClick={cancelAdd}>Hủy</button>
                     </div>
                 </Form>
 
