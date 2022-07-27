@@ -2,6 +2,7 @@ import './sidebar.css';
 import { useState } from 'react';
 import Countries from '../Menu/Countries';
 import HomePage from '../Menu/HomePage';
+import EditCountry from '../Popup/EditCountry'
 import { Link } from 'react-router-dom';
 import { Routes, Route } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,6 +30,7 @@ function Sidebar() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/countries" element={<Countries />} />
+        <Route path="/edit/:id" element={<EditCountry />} />
       </Routes> 
     </>
   )

@@ -3,69 +3,48 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 // import Delete from '../Popup/Delete';
 import AddCountry from '../Popup/AddCountry'
-import EditCountry from '../Popup/EditCountry'
 import { useState, useEffect } from 'react'
+import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 function Countries() {
 
-  //show Popup Delete Country
-  const [showDel, setShowDel] = useState(false)
-
-  //handle Delete Country
-  const handleDel = (id) => {
-    setShowDel(true)
-    const options = {
-      method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json'
-        },
-  }
-    fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country" + '/' + id, options)
-        .then(res => res.json())
-        .then(
-            (result) => {
-                console.log(result);
-            },
-        );
-
-    const element = document.getElementById(id)
-    if(element) {
-      element.remove()
-    }
-  }
-
-  //show Popup AddCountry
   const [showAdd, setShowAdd] = useState(false)
 
-  const handleAdd = () => {
-    setShowAdd(true)
+  const [country, setCountry] = useState([])
+
+  const [status, setStatus] = useState()
+
+  useEffect(() => {
+    const getAllCountry = async () => {
+      try {
+        const country = await axios.get("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country")
+        setCountry(country.data)
+      } catch (error) {
+        console.log("Something is Wrong")
+      }
+    }
+    getAllCountry()
+  },[])
+
+  const handleDel = async id => {
+    await axios.delete(`https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country/${id}`)
+    const newCountry = country.filter((item) => {
+      return item.id !== id
+    })
+    setCountry(newCountry)
   }
 
-  //show Popup Edit Country
-  const [showEdit, setShowEdit] = useState(false)
-
-  const handleEdit = () => {
-    setShowEdit(true)
-    }
-  
-  //call Api to render table
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setItems(result);
-        },
-      )
-  },[]);
+  if(status) {
+    return <Countries />
+  }
 
   return (
     <div className="container-country">
       {/* {showDel ? <Delete setShowDel={setShowDel} /> : "" } */}
-      {showAdd ? <AddCountry setShowAdd={setShowAdd} items={items} setItems={setItems} /> : ""}
-      {showEdit ? <EditCountry setShowEdit={setShowEdit} /> : ""}
-          <button className="addcountry" onClick={handleAdd}>Thêm mới</button>
+      {showAdd ? <AddCountry setShowAdd={setShowAdd} status={status} setStatus={setStatus}/> : ""}
+      {/* {showEdit ? <EditCountry setShowEdit={setShowEdit} /> : ""} */}
+          <button className="addcountry" onClick={() => setShowAdd(true)}>Thêm mới</button>
           <table>
               <tbody>
                 <tr>
@@ -74,11 +53,11 @@ function Countries() {
                   <th>Mã</th>
                   <th>Mô tả</th>
                 </tr>
-          {items.map((item, index) => {
+          {country.map((item, index) => {
             return (
-                <tr key={index} id={item.id}>
+                <tr key={index}>
                   <td>
-                    <span><EditIcon style={{color:"#00bfc7", cursor:"pointer"}} onClick={handleEdit} /></span>
+                    <span><Link to={`/edit/${item.id}`}><EditIcon style={{color:"#00bfc7", cursor:"pointer"}} /></Link></span>
                     <span><DeleteIcon style={{color:"#fb9678", cursor:"pointer"}} onClick={()=>handleDel(item.id)}/></span>
                   </td>
                   <td>{item.name}</td>

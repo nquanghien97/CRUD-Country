@@ -1,45 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './addcountry.css'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import axios from "axios";
+import Countries from '../Menu/Countries'
   
 function AddCountry(props) {
 
-    const {setShowAdd, items, setItems} = props
+    const {setShowAdd, status, setStatus} = props
 
     const cancelAdd = () => setShowAdd(false)
 
-    const [input, setInput] = useState("");
+    const [country, setCountry] = useState({
+        name: "",
+        code: "",
+        des: ""
+    })
 
-    const AddNewCountry = (data) => {
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify(data)
-        }
-    fetch("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country", options)
-        .then(res => res.json())
-        .then(
-            (result) => {
-                setInput(result);
-            },
-            )
+    const handleChange = (e) => {
+        setCountry({
+            ...country,
+            [e.target.name]: e.target.value
+        })
     }
 
-    const onSubmit = (values) => {
-        let formData = {
-            name: values.name,
-            code: values.code,
-            des: values.des,
+    const onSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            await axios.post(`https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country`, country)
+            setStatus(true)
+        } catch (error) {
+            console.log("Something is Wrong");
+           }
         }
-        AddNewCountry(formData)
-        cancelAdd()
-        // items.push(formData)
-        setInterval(() =>{
-            window.location.reload();
-        }, 500)
+    if (status) {
+        return <Countries />
     }
 
     const validationSchema = Yup.object().shape({
@@ -57,51 +52,57 @@ function AddCountry(props) {
         des: '',
       };
 
-  return (
+    return (
         <div className="form-container">
             <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
             >
-            {(props) => (
                 <Form className="form">
                     <div className="form-field">
                         <Field
                             placeholder="Quốc Gia"
                             className="input"
-                            value={props.values.name}
+                            value={country.name}
                             label="Quốc Gia"
                             name="name"
-                            onChange={props.handleChange('name')}
+                            onChange={e => {
+                            handleChange(e)
+                            console.log(e.target.value)
+                            }}
                             required
                         />
                         <Field
                             placeholder="Mã"
                             className="input"
-                            value={props.values.code}
+                            value={country.code}
                             label="Mã"
                             name="code"
-                            onChange={props.handleChange('code')}
+                            onChange={e => {
+                            handleChange(e)
+                            console.log(e.target.value)
+                            }}
                             required
                         />
                         <Field
                             placeholder="Mô tả"
                             className="input"
-                            value={props.values.des}
+                            value={country.des}
                             label="Mô tả"
                             name="des"
-                            onChange={props.handleChange('des')}
+                            onChange={e => {
+                            handleChange(e)
+                            console.log(e.target.value)
+                            }}
                             required
                         />
                     </div>
                     <div className="form-button">
-                        <button className="button" type="submit">Thêm Quốc Gia</button>
+                        <button className="button" onClick={e => onSubmit(e)} type="submit">Thêm Quốc Gia</button>
                         <button className="button" onClick={cancelAdd}>Hủy</button>
                     </div>
                 </Form>
-
-            )}
             </Formik>
       </div>
     
