@@ -53,16 +53,17 @@ function AddCountry(props) {
       };
 
     return (
-        <Container maxWidth={false} style={{width: "100vw", height: "100vh", position:"absolute", backgroundColor: "rgb(204, 204, 204, 0.9)", zIndex:"100"}}>
+        <Container maxWidth={false} style={{padding: "0 16px", width: "100vw", height: "100vh", position:"absolute", backgroundColor: "rgb(204, 204, 204, 0.9)", zIndex:"100"}}>
             <Box>
                 <Grid
                     alignItems="center"
                     justifyContent="center"
                     container
-                    xs={12}
+                    xs={11}
+                    sm={11}
+                    md={6}
                     item
                     style={{
-                        width: "50%",
                         position:"absolute",
                         left: "50%",
                         top: "50%",
