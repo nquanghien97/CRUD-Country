@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import './addcountry.css'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 import Countries from '../Menu/Countries'
+import { TextField, Container, Grid, Button, Box } from '@mui/material'
   
 function AddCountry(props) {
 
@@ -53,58 +53,73 @@ function AddCountry(props) {
       };
 
     return (
-        <div className="form-container">
-            <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
-            >
-                <Form className="form">
-                    <div className="form-field">
-                        <Field
-                            placeholder="Quốc Gia"
-                            className="input"
-                            value={country.name}
-                            label="Quốc Gia"
-                            name="name"
-                            onChange={e => {
-                            handleChange(e)
-                            console.log(e.target.value)
-                            }}
-                            required
-                        />
-                        <Field
-                            placeholder="Mã"
-                            className="input"
-                            value={country.code}
-                            label="Mã"
-                            name="code"
-                            onChange={e => {
-                            handleChange(e)
-                            console.log(e.target.value)
-                            }}
-                            required
-                        />
-                        <Field
-                            placeholder="Mô tả"
-                            className="input"
-                            value={country.des}
-                            label="Mô tả"
-                            name="des"
-                            onChange={e => {
-                            handleChange(e)
-                            console.log(e.target.value)
-                            }}
-                            required
-                        />
-                    </div>
-                    <div className="form-button">
-                        <button className="button" onClick={e => onSubmit(e)} type="submit">Thêm Quốc Gia</button>
-                        <button className="button" onClick={cancelAdd}>Hủy</button>
-                    </div>
-                </Form>
-            </Formik>
-      </div>
+        <Container maxWidth={false} style={{width: "100vw", height: "100vh", position:"absolute", backgroundColor: "rgb(204, 204, 204, 0.9)", zIndex:"100"}}>
+            <Box>
+                <Grid
+                    alignItems="center"
+                    justifyContent="center"
+                    container
+                    xs={12}
+                    item
+                    style={{
+                        width: "50%",
+                        position:"absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                        padding: "28px",
+                        border: "1px solid black",
+                        borderRadius: "10px",
+                        backgroundColor: "#94B49F"
+                    }}
+                >
+                    <Formik
+                    initialValues={initialValues}
+                    onSubmit={onSubmit}
+                    validationSchema={validationSchema}
+                    >
+                        <Form className="form">
+                            <Grid item xs={12}>
+                                <Field
+                                    fullWidth
+                                    sx={{mb:2}}
+                                    as={TextField}
+                                    value={country.name}
+                                    label="Quốc Gia"
+                                    name="name"
+                                    onChange={e => {handleChange(e)}}
+                                    required
+                                />
+                                <Field
+                                    fullWidth
+                                    sx={{mb:2}}
+                                    as={TextField}
+                                    value={country.code}
+                                    label="Mã"
+                                    name="code"
+                                    onChange={e => {handleChange(e)}}
+                                    required
+                                />
+                                <Field
+                                    fullWidth
+                                    sx={{mb:2}}
+                                    as={TextField}
+                                    value={country.des}
+                                    label="Mô tả"
+                                    name="des"
+                                    onChange={e => {handleChange(e)}}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item container alignItems="center" justifyContent="center" xs={12}>
+                                <Button sx={{m:1}} variant="contained" onClick={e => onSubmit(e)} type="submit">Thêm Quốc Gia</Button>
+                                <Button sx={{m:1}} variant="contained" className="button" onClick={cancelAdd}>Hủy</Button>
+                            </Grid>
+                        </Form>
+                    </Formik>
+                </Grid>
+            </Box>
+      </Container>
     
   )
 }

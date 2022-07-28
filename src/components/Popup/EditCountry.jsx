@@ -3,10 +3,9 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom'
+import { TextField, Container, Grid, Button, Box } from '@mui/material'
 
 function EditCountry(props) {
-
-  // const {setShowEdit} = props
 
   const { id } = useParams()
 
@@ -65,59 +64,69 @@ function EditCountry(props) {
   };
 
   return (
-    <div className="form-container">
+    <Container maxWidth={false} style={{display: "flex", height: "100vh", backgroundColor: "rgb(204, 204, 204, 0.9)"}}>
+      <Box sx={{m:"auto"}}>
+        <Grid
+          alignItems="center"
+          justifyContent="center"
+          container
+          xs={12}
+          item
+          style={{
+              padding: "28px",
+              border: "1px solid black",
+              borderRadius: "10px",
+              backgroundColor: "#94B49F"
+          }}
+        >
           <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
           validationSchema={validationSchema}
           >
               <Form className="form">
-                  <div className="form-field">
+                  <Grid item xs={12}>
                       <Field
-                          placeholder="Quốc Gia"
-                          className="input"
+                          fullWidth
+                          sx={{mb:2}}
+                          as={TextField}
                           value={country.name}
                           label="Quốc Gia"
                           name="name"
-                          onChange={e => {
-                            handleChange(e)
-                            console.log(e.target.value)
-                          }}
+                          onChange={e => {handleChange(e)}}
                           required
                       />
                       <Field
-                          placeholder="Mã"
-                          className="input"
+                          fullWidth
+                          sx={{mb:2}}
+                          as={TextField}
                           value={country.code}
                           label="Mã"
                           name="code"
-                          onChange={e => {
-                              handleChange(e)
-                              console.log(e.target.value)
-                            }
+                          onChange={e => {handleChange(e)}
                           }
                           required
                       />
                       <Field
-                          placeholder="Mô tả"
-                          className="input"
+                          fullWidth
+                          sx={{mb:2}}
+                          as={TextField}
                           value={country.des}
                           label="Mô tả"
                           name="des"
-                          onChange={e => {
-                            handleChange(e)
-                            console.log(e.target.value)
-                          }}
+                          onChange={e => {handleChange(e)}}
                           required
                       />
-                  </div>
-                  <div className="form-button">
-                      <button className="button" onClick={onSubmit} type="submit">Xác nhận</button>
-                      <button className="button" onClick={handleClick}>Hủy</button>
-                  </div>
+                  </Grid>
+                  <Grid item container alignItems="center" justifyContent="center" xs={12}>
+                      <Button sx={{m:1}} variant="contained" onClick={onSubmit} type="submit">Xác nhận</Button>
+                      <Button sx={{m:1}} variant="contained" onClick={handleClick}>Hủy</Button>
+                  </Grid>
               </Form>
           </Formik>
-    </div>
+        </Grid>
+      </Box>
+    </Container>
   )
 }
 

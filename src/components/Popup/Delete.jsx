@@ -1,5 +1,4 @@
 import React from 'react'
-import './delete.css'
 
 function Delete(props) {
 

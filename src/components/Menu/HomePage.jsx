@@ -1,10 +1,10 @@
-import './homepage.css'
+import { Container, Typography } from '@mui/material'
 
 function HomePage() {
   return (
-    <div className="container">
-      <h2>this is homepage</h2>
-    </div>
+    <Container style={{height:"100vh", display: "flex", alignItems:"center", justifyContent: "center"}}>
+      <Typography variant="h2">this is homepage</Typography>
+    </Container>
   )
 }
 
