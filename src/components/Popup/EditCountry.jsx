@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom'
-import { TextField, Container, Grid, Button, Box } from '@mui/material'
+import { TextField, Container, Grid, Button, Box, Typography } from '@mui/material'
 
 function EditCountry(props) {
 
@@ -67,6 +67,8 @@ function EditCountry(props) {
     <Container maxWidth={false} style={{display: "flex", height: "100vh", backgroundColor: "rgb(204, 204, 204, 0.9)"}}>
       <Box sx={{m:"auto"}}>
         <Grid
+        display= "flex" 
+        flexDirection= "column"
           alignItems="center"
           justifyContent="center"
           container
@@ -79,6 +81,7 @@ function EditCountry(props) {
               backgroundColor: "#94B49F"
           }}
         >
+          <Typography variant="h4" sx={{mb:2}}>Thêm Quốc Gia</Typography>
           <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}

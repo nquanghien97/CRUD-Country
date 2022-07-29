@@ -3,8 +3,8 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 import Countries from '../Menu/Countries'
-import { TextField, Container, Grid, Button, Box } from '@mui/material'
-  
+import { TextField, Container, Grid, Button, Box, Typography } from '@mui/material'
+
 function AddCountry(props) {
 
     const {setShowAdd, status, setStatus} = props
@@ -74,6 +74,7 @@ function AddCountry(props) {
                         backgroundColor: "#94B49F"
                     }}
                 >
+                    <Typography variant="h4" sx={{mb:2}}>Thêm Quốc Gia</Typography>
                     <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
