@@ -1,9 +1,10 @@
-import React from 'react'
+import { useState } from 'react'
 import { AppBar, Toolbar, IconButton, TextField, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from '@mui/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import Search from '../search/Search'
+import useComponentVisible from './useComponentVisible';
 
 const useStyles = makeStyles({
     container: {
@@ -43,7 +44,7 @@ function PageHeader(props) {
 
     const { data, setData } = Search()
 
-    console.log(data.results[0].name)
+    const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true)
 
   return (
     <>
@@ -64,29 +65,38 @@ function PageHeader(props) {
                         variant="filled"
                         size="small"
                         value={data.name}
-                        onChange= {(e) => setData({ ...data, name:e.target.value})}
+                        onChange= {(e) => {
+                            setData({ ...data, name:e.target.value})
+                            setIsComponentVisible(true)
+                        }}
                     />
-                    <Box className={classes.searchResults}>
-                        {data.results.length > 0 ?
-                            <TableContainer component={Paper}>
-                            <Table>
-                            <TableHead>
-                                <TableRow>
-                                <TableCell>Tên</TableCell>
-                                <TableCell>Mã</TableCell>
-                                <TableCell>Mô tả</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                    <TableRow key={data.results[0].id}>
-                                    <TableCell>{data.results[0].name}</TableCell>
-                                    <TableCell>{data.results[0].code}</TableCell>
-                                    <TableCell>{data.results[0].des}</TableCell>
-                                    </TableRow>
-                            </TableBody>
-                            </Table>
-                        </TableContainer>
-                        : null
+                    <Box ref={ref}>
+                        {isComponentVisible &&
+                        (
+                            <Box className={classes.searchResults}>
+                                {data.results.length > 0 ?
+                                    <TableContainer component={Paper}>
+                                    <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                        <TableCell>Tên</TableCell>
+                                        <TableCell>Mã</TableCell>
+                                        <TableCell>Mô tả</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                            <TableRow key={data.results[0].id}>
+                                            <TableCell>{data.results[0].name}</TableCell>
+                                            <TableCell>{data.results[0].code}</TableCell>
+                                            <TableCell>{data.results[0].des}</TableCell>
+                                            </TableRow>
+                                    </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                : null
+                                }
+                            </Box>
+                            )
                         }
                     </Box>
                 </Box>
