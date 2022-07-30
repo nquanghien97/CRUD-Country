@@ -1,10 +1,10 @@
-import { useState } from 'react'
 import { AppBar, Toolbar, IconButton, TextField, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search';
 import { makeStyles } from '@mui/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import Search from '../search/Search'
 import useComponentVisible from './useComponentVisible';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles({
     container: {
@@ -44,6 +44,10 @@ function PageHeader(props) {
     const { data, setData } = Search()
 
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(true)
+
+    useEffect(() => {
+        setIsComponentVisible(false)
+    },[setIsComponentVisible])
 
   return (
     <>
