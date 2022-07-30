@@ -23,7 +23,7 @@ function Search() {
           }, 1000);
           return () => clearTimeout(timeoutId);
         }
-      }, [data.name]);
+      }, [data]);
     
       return { data, setData };
 }
