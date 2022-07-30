@@ -53,7 +53,17 @@ function AddCountry(props) {
       };
 
     return (
-        <Container maxWidth={false} style={{padding: "0 16px", width: "100vw", height: "100vh", position:"absolute", backgroundColor: "rgb(204, 204, 204, 0.9)", zIndex:"100"}}>
+        <Container
+            maxWidth={false}
+            style={{
+                padding: "0 16px",
+                width: "100vw",
+                height: "100vh",
+                position:"absolute",
+                backgroundColor: "rgb(204, 204, 204, 0.9)",
+                zIndex:"100"
+                }}
+        >
             <Box>
                 <Grid
                     alignItems="center"
@@ -76,9 +86,9 @@ function AddCountry(props) {
                 >
                     <Typography variant="h4" sx={{mb:2}}>Thêm Quốc Gia</Typography>
                     <Formik
-                    initialValues={initialValues}
-                    onSubmit={onSubmit}
-                    validationSchema={validationSchema}
+                        initialValues={initialValues}
+                        onSubmit={onSubmit}
+                        validationSchema={validationSchema}
                     >
                         <Form className="form">
                             <Grid item xs={12}>

@@ -13,3 +13,12 @@ a {
     cursor: pointer;
     color: white;
 }
+
+.css-19mk8g1-MuiInputBase-root-MuiFilledInput-root {
+    background-color: transparent !important;
+}
+
+.css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:before,
+.css-19mk8g1-MuiInputBase-root-MuiFilledInput-root:after {
+    border: none !important;
+}
