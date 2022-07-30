@@ -5,7 +5,11 @@ import AddCountry from '../Popup/AddCountry'
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom'
-import { Container, Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button} from '@mui/material'
+import { Container, Box, Typography,
+  Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow,
+  Paper, Button, TableFooter, TablePagination} from '@mui/material'
+import TablePaginationActions from '../Pagination/TablePaginationActions'
 
 function Countries() {
 
@@ -14,6 +18,21 @@ function Countries() {
   const [country, setCountry] = useState([])
 
   const [status, setStatus] = useState()
+
+  const [page, setPage] = useState(0)
+
+  const [rowsPerPage, setRowsPerPage] = useState(5)
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - country.length) : 0;
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
     const getAllCountry = async () => {
@@ -56,7 +75,8 @@ function Countries() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {country.map((item, index) => {
+                    {(rowsPerPage > 0 ? country.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage): country
+                    ).map((item, index) => {
                       return (
                         <TableRow key={index}>
                           <TableCell>
@@ -73,7 +93,32 @@ function Countries() {
                         </TableRow>
                           )
                         })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
                   </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                        colSpan={3}
+                        count={country.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        SelectProps={{
+                          inputProps: {
+                            'aria-label': 'rows per page',
+                          },
+                          native: true,
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                      />
+                    </TableRow>
+                  </TableFooter>
                 </Table>
             </TableContainer>
       </Box>

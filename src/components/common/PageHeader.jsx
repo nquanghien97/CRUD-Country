@@ -22,7 +22,6 @@ const useStyles = makeStyles({
     searchIcon: {
         color: 'black',
         margin: '0 0 6px 8px',
-        // fontSize: 40
     },
     input: {
         padding: '2px 0',
