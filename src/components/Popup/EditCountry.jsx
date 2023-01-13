@@ -1,33 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import axios from "axios";
 import { useParams, useNavigate } from 'react-router-dom'
-import { TextField, Container, Grid, Button, Box, Typography } from '@mui/material'
+import { TextField, Container, Grid, Button, Box, Typography } from '@mui/material';
+import { getSingleCountry, updateCountry } from '../../services';
 
 function EditCountry(props) {
 
-  const { id } = useParams()
+  const { countryId } = useParams()
 
   const navigate = useNavigate()
 
   const [country, setCountry] = useState({
     name: "",
     code: "",
-    des: ""
+    description: ""
   });
 
   useEffect(() => {
     const getCountry = async () => {
       try {
-        const country = await axios.get(`https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country/${id}`)
-        setCountry(country.data)
+        const country = await getSingleCountry(countryId)
+        setCountry(country.data.Country)
       } catch (error) {
         console.log("SOmething is Wrong")
       }
     }
     getCountry()
-  }, [id]);
+  }, [countryId]);
+
 
   const handleChange = (e) => {
     setCountry({
@@ -38,7 +39,7 @@ function EditCountry(props) {
 
   const onSubmit = async (e) => {
     try {
-      await axios.put(`https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country/${id}`, country)
+      await updateCountry(countryId, country)
       navigate("/countries")
     } catch (error) {
       console.log("Something is Wrong")
@@ -53,14 +54,14 @@ function EditCountry(props) {
       .required('Trường này là bắt buộc'),
     code: Yup.string()
       .required('Trường này là bắt buộc'),
-    des: Yup.string()
+    description: Yup.string()
       .required('Trường này là bắt buộc'),
   });
 
   const initialValues = {
     name: '',
     code: '',
-    des: '',
+    description: '',
   };
 
   return (
@@ -114,9 +115,9 @@ function EditCountry(props) {
                           fullWidth
                           sx={{mb:2}}
                           as={TextField}
-                          value={country.des}
+                          value={country.description}
                           label="Mô tả"
-                          name="des"
+                          name="description"
                           onChange={e => {handleChange(e)}}
                           required
                       />

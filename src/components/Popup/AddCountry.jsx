@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import axios from "axios";
 import Countries from '../Menu/Countries'
-import { TextField, Container, Grid, Button, Box, Typography } from '@mui/material'
+import { TextField, Container, Grid, Button, Box, Typography } from '@mui/material';
+import { createCountry } from '../../services';
 
 function AddCountry(props) {
 
@@ -14,7 +14,7 @@ function AddCountry(props) {
     const [country, setCountry] = useState({
         name: "",
         code: "",
-        des: ""
+        description: ""
     })
 
     const handleChange = (e) => {
@@ -27,7 +27,7 @@ function AddCountry(props) {
     const onSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.post(`https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country`, country)
+            await createCountry(country)
             setStatus(true)
         } catch (error) {
             console.log("Something is Wrong");
@@ -42,14 +42,14 @@ function AddCountry(props) {
           .required('Trường này là bắt buộc'),
         code: Yup.string()
           .required('Trường này là bắt buộc'),
-        des: Yup.string()
+        description: Yup.string()
           .required('Trường này là bắt buộc'),
       });
     
       const initialValues = {
         name: '',
         code: '',
-        des: '',
+        description: '',
       };
 
     return (
@@ -116,9 +116,9 @@ function AddCountry(props) {
                                     fullWidth
                                     sx={{mb:2}}
                                     as={TextField}
-                                    value={country.des}
+                                    value={country.description}
                                     label="Mô tả"
-                                    name="des"
+                                    name="description"
                                     onChange={e => {handleChange(e)}}
                                     required
                                 />

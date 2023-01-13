@@ -1,15 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { deleteCountry } from '../../services';
 
 function Delete(props) {
 
+  const { setShowDel, id, country, setCountry } = props
 
-    const {setShowDel} = props
+  const cancleDel = () => {
+    setShowDel(false)
+  }
 
-    const handleDel = () => {
-        setShowDel(false)
-    }
-
-    const cancleDel = () => setShowDel(false)
+  const handleDel = async () => {
+    await deleteCountry(id)
+    const newCountry = country.filter((item) => {
+      return item._id !== id
+    })
+    setCountry(newCountry)
+    setShowDel(false)
+  }
 
   return (
     <div className="container-delete">

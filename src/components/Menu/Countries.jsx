@@ -1,15 +1,15 @@
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import Delete from '../Popup/Delete';
+import Delete from '../Popup/Delete';
 import AddCountry from '../Popup/AddCountry'
 import { useState, useEffect } from 'react'
-import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { Container, Box, Typography,
   Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow,
   Paper, Button, TableFooter, TablePagination} from '@mui/material'
-import TablePaginationActions from '../Pagination/TablePaginationActions'
+import TablePaginationActions from '../Pagination/TablePaginationActions';
+import { getAllCountries } from '../../services';
 
 function Countries() {
 
@@ -20,6 +20,10 @@ function Countries() {
   const [status, setStatus] = useState()
 
   const [page, setPage] = useState(0)
+
+  const [showDel, setShowDel] = useState(false)
+
+  const [id, setId] = useState();
 
   const [rowsPerPage, setRowsPerPage] = useState(5)
 
@@ -37,22 +41,14 @@ function Countries() {
   useEffect(() => {
     const getAllCountry = async () => {
       try {
-        const country = await axios.get("https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country")
-        setCountry(country.data)
+        const country = await getAllCountries()
+        setCountry(country.data.Country)
       } catch (error) {
         console.log("Something is Wrong")
       }
     }
     getAllCountry()
   },[])
-
-  const handleDel = async id => {
-    await axios.delete(`https://62a591d8b9b74f766a3ba5db.mockapi.io/api/country/${id}`)
-    const newCountry = country.filter((item) => {
-      return item.id !== id
-    })
-    setCountry(newCountry)
-  }
 
   if(status) {
     return <Countries />
@@ -62,7 +58,7 @@ function Countries() {
     <Container style={{position:"relative", height: "100vh", display: "flex",justifyContent: "center", alignItems: "center"}}>
       {showAdd ? <AddCountry setShowAdd={setShowAdd} status={status} setStatus={setStatus}/> : ""}
       <Box style={{position:"relative", width: "100vw"}}>
-        {/* {showDel ? <Delete setShowDel={setShowDel} /> : "" } */}
+        {showDel ? <Delete setShowDel={setShowDel} id={id} country={country} setCountry={setCountry} /> : "" }
             <Button sx={{m:1}} variant="contained" onClick={() => setShowAdd(true)}>Thêm mới</Button>
             <TableContainer component={Paper}>
                 <Table>
@@ -81,10 +77,17 @@ function Countries() {
                         <TableRow key={index}>
                           <TableCell>
                             <Typography component="span">
-                              <Link to={`/edit/${item.id}`}><EditIcon style={{color:"#00bfc7", cursor:"pointer"}} /></Link>
+                              <Link to={`/countries/${item._id}`}><EditIcon style={{color:"#00bfc7", cursor:"pointer"}} /></Link>
                             </Typography>
                             <Typography component="span">
-                              <DeleteIcon style={{color:"#fb9678", cursor:"pointer"}} onClick={()=>handleDel(item.id)}/>
+                              <DeleteIcon
+                                style={{color:"#fb9678", cursor:"pointer"}}
+                                onClick={()=>{
+                                  // handleDel(item._id)
+                                  setShowDel(true)
+                                  setId(item._id)
+                                }}
+                              />
                             </Typography>
                           </TableCell>
                           <TableCell>{item.name}</TableCell>

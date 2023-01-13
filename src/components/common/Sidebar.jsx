@@ -70,7 +70,7 @@ function Sidebar() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/countries" element={<Countries />} />
-        <Route path="/edit/:id" element={<EditCountry />} />
+        <Route path="/countries/:countryId" element={<EditCountry />} />
       </Routes> 
     </>
   )

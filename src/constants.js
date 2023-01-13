@@ -1,0 +1,1 @@
+export const API_KEY = "https://crud-nodejs-ten.vercel.app/countries/"

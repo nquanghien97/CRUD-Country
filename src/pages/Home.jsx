@@ -4,7 +4,7 @@ import Sidebar from '../components/common/Sidebar'
 function Home() {
   return (
     <>
-        <Sidebar />
+      <Sidebar />
     </>
   )
 }
