@@ -83,7 +83,6 @@ function Countries() {
                               <DeleteIcon
                                 style={{color:"#fb9678", cursor:"pointer"}}
                                 onClick={()=>{
-                                  // handleDel(item._id)
                                   setShowDel(true)
                                   setId(item._id)
                                 }}
@@ -92,7 +91,7 @@ function Countries() {
                           </TableCell>
                           <TableCell>{item.name}</TableCell>
                           <TableCell>{item.code}</TableCell>
-                          <TableCell>{item.des}</TableCell>
+                          <TableCell>{item.description}</TableCell>
                         </TableRow>
                           )
                         })}

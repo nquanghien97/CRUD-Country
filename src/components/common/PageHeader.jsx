@@ -91,7 +91,7 @@ function PageHeader(props) {
                                             <TableRow key={data.results[0].id}>
                                             <TableCell>{data.results[0].name}</TableCell>
                                             <TableCell>{data.results[0].code}</TableCell>
-                                            <TableCell>{data.results[0].des}</TableCell>
+                                            <TableCell>{data.results[0].description}</TableCell>
                                             </TableRow>
                                     </TableBody>
                                     </Table>
